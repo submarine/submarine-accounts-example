@@ -8,10 +8,10 @@
   <body>
     <script id="submarine-context" type="application/json">
       {
-        "environment": "staging",
+        "environment": "%VITE_SUBMARINE_ENVIRONMENT%",
         "authentication": {
-          "shop": "getsubmarine.myshopify.com",
-          "customer_id": "3041789640759"
+          "shop": "%VITE_SHOPIFY_DOMAIN%",
+          "customer_id": "%VITE_CUSTOMER_ID%"
         }
       }
     </script>
