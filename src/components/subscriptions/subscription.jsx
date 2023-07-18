@@ -1,11 +1,12 @@
 import { EditNickname } from "./actions/editNickname.jsx";
+import { EditPaymentMethod } from "./actions/editPaymentMethod.jsx";
 import { Pause } from "./actions/pause.jsx";
 import { Resume } from "./actions/resume.jsx";
 import { Cancel } from "./actions/cancel.jsx";
 
 import { getPaymentMethodDescription, getShippingMethodDescription } from "../../lib/helpers.js";
 
-export function Subscription({ subscription }) {
+export function Subscription({ subscription, paymentMethods }) {
   const nextScheduledOrder = subscription.attributes.next_scheduled_order;
   const paymentMethod = subscription.attributes.payment_method;
   const shippingMethod = subscription.attributes.shipping_method;
@@ -48,6 +49,9 @@ export function Subscription({ subscription }) {
       <ul>
         <li>
           <EditNickname subscription={subscription} />
+        </li>
+        <li>
+          <EditPaymentMethod subscription={subscription} paymentMethods={paymentMethods} />
         </li>
         <li>
           <Pause subscription={subscription} />

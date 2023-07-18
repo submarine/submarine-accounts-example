@@ -1,5 +1,5 @@
 import { Subscription } from "./subscription.jsx";
-export function Subscriptions({ subscriptions }) {
+export function Subscriptions({ subscriptions, paymentMethods }) {
   return (
     <section>
       <h1>Subscriptions</h1>
@@ -8,6 +8,7 @@ export function Subscriptions({ subscriptions }) {
           <Subscription
             key={subscription.id}
             subscription={subscription}
+            paymentMethods={paymentMethods}
           />
         )
       })}

@@ -12,6 +12,7 @@ const App = () => {
   // load subscriptions for the customer
   const {
     isLoading: isLoadingSubscriptions,
+    isFetching: isFetchingSubscriptions,
     error: subscriptionsError,
     data: subscriptions
   } = loadSubscriptions(api);
@@ -19,6 +20,7 @@ const App = () => {
   // load payment methods for the customer
   const {
     isLoading: isLoadingPaymentMethods,
+    isFetching: isFetchingPaymentMethods,
     error: paymentMethodsError,
     data: paymentMethods
   } = loadPaymentMethods(api);
@@ -84,6 +86,7 @@ function Content({ selectedTab, isLoadingSubscriptions, isLoadingPaymentMethods,
       return (
         <Subscriptions
           subscriptions={subscriptions}
+          paymentMethods={paymentMethods}
         />
       );
     case 'paymentMethods':
