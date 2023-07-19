@@ -1,4 +1,5 @@
 import { MakeDefault } from "./actions/makeDefault.jsx";
+import { Remove } from "./actions/remove.jsx";
 
 import { getPaymentMethodDescription } from "../../lib/helpers.js";
 
@@ -19,6 +20,9 @@ export function PaymentMethod({ paymentMethod }) {
       <ul>
         <li>
           <MakeDefault paymentMethod={paymentMethod} />
+        </li>
+        <li>
+          <Remove paymentMethod={paymentMethod} />
         </li>
       </ul>
     </div>

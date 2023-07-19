@@ -389,17 +389,22 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@tanstack/query-core@4.29.19":
-  version "4.29.19"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.29.19.tgz#49ccbd0606633d1e55baf3b91ab7cc7aef411b1d"
-  integrity sha512-uPe1DukeIpIHpQi6UzIgBcXsjjsDaLnc7hF+zLBKnaUlh7jFE/A+P8t4cU4VzKPMFB/C970n/9SxtpO5hmIRgw==
+"@lemuria/load-scripts@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@lemuria/load-scripts/-/load-scripts-1.2.0.tgz#3e9cc72ce00beca90c10882fe379a7a18f13a544"
+  integrity sha512-DW2UrTgcBPMutFm4Tkr/OeN8iaLse17A+o/tnet72pxTRVe32esjwnpbW3Xe5mUJcRG3PmVZT9J1B3Fdj4RcFg==
 
-"@tanstack/react-query@^4.29.19":
-  version "4.29.19"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.29.19.tgz#6ba187f2d0ea36ae83ff1f67068f53c88ce7b228"
-  integrity sha512-XiTIOHHQ5Cw1WUlHaD4fmVUMhoWjuNJlAeJGq7eM4BraI5z7y8WkZO+NR8PSuRnQGblpuVdjClQbDFtwxTtTUw==
+"@tanstack/query-core@4.29.25":
+  version "4.29.25"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.29.25.tgz#605d357968a740544af6754004eed1dfd4587cb8"
+  integrity sha512-DI4y4VC6Uw4wlTpOocEXDky69xeOScME1ezLKsj+hOk7DguC9fkqXtp6Hn39BVb9y0b5IBrY67q6kIX623Zj4Q==
+
+"@tanstack/react-query@^4.29.25":
+  version "4.29.25"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.29.25.tgz#64df3260b65760fbd3c81ffae23b7b3802c71aa6"
+  integrity sha512-c1+Ezu+XboYrdAMdusK2fTdRqXPMgPAnyoTrzHOZQqr8Hqz6PNvV9DSKl8agUo6nXX4np7fdWabIprt+838dLg==
   dependencies:
-    "@tanstack/query-core" "4.29.19"
+    "@tanstack/query-core" "4.29.25"
     use-sync-external-store "^1.2.0"
 
 "@types/node@^15.0.1":
@@ -1620,10 +1625,10 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==
 
-submarine-js@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/submarine-js/-/submarine-js-0.5.1.tgz#072167c2eb0bb08dab84c61f714fad2b97bdc2cf"
-  integrity sha512-mtb1a8+eNuz5xc8G0IrW1nbzDiR9tapbLGEfZJkFmhbqc4DOpUG5kdpjCD3IMHBSOWbrhrBduDCp+xWvkWSbOw==
+submarine-js@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/submarine-js/-/submarine-js-0.5.3.tgz#e2b65008bb469265b0cd3a26a4f1be78533f7839"
+  integrity sha512-tvirFDwwpljuJYCJgqqHF+T8PD6MO1b2oWvUOiipNTOwxKeI+A8Ru2EJT2VOjp+8SFgR7AOcbHvqqKNrv+vVNQ==
   dependencies:
     json-api-models "^0.1.0-beta.7"
 

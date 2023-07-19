@@ -12,7 +12,7 @@ export function Cancel({ subscription }) {
   // create a mutation object
   const cancel = cancelMutation(subscription, api, queryClient);
 
-  // handle a click on the edit nickname affordance
+  // handle a click on the cancel affordance
   const handleCancel = () => {
     // reset the mutation to cancel
     cancel.reset();

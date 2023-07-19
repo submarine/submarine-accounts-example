@@ -1,8 +1,10 @@
 import { PaymentMethod } from "./paymentMethod.jsx";
+import { AddBraintreePaymentMethod } from "./groupActions/addBraintreePaymentMethod.jsx";
 
 export function PaymentMethods({ paymentMethods }) {
   return (
     <section>
+      <h1>Payment methods</h1>
       {paymentMethods.map(paymentMethod => {
         return (
           <PaymentMethod
@@ -11,6 +13,8 @@ export function PaymentMethods({ paymentMethods }) {
           />
         )
       })}
+      <hr />
+      <AddBraintreePaymentMethod />
     </section>
   )
 }
