@@ -43,6 +43,8 @@ The `.env` file lists the variables required to be set -- when starting developm
   against the live Submarine API. For example, `Qqs99Rc29K23fe7kQvfR1LRG`.
 * `VITE_CUSTOMER_ID`: The numerical ID for the Shopify customer you would like to use for development purposes. For
   example, `7225251091539`.
+* `VITE_PAYMENT_PROCESSOR`: The payment processor configured for the Shopify store you are using for development.
+  Currently, this can be either `braintree` (default) or `stripe`.
 * `VITE_SHOPIFY_DOMAIN`: The full `*.myshopify.com` domain for the Shopify store you would like to use for development
   purposes. For example, `store.myshopify.com`.
 * `VITE_SUBMARINE_ENVIRONMENT`: The environment of the Submarine instance installed on the store. This will typically
@@ -59,17 +61,20 @@ yarn dev
 
 ### Adding payment methods
 The example code shows how to allow customers to add new tokenised payment methods to their account using a combination
-of the Submarine Customer API and a third party payment processor client library (Braintree).
+of the Submarine Customer API and a third party payment processor client library (Braintree or Stripe).
 
-This is demonstrated in the `<AddBraintreePaymentMethod>` component, which has logic to set up a payment form when the
-user clicks the "Add a new payment method" button from the bottom of the payment methods page.
+This is demonstrated in the `<AddBraintreePaymentMethod>` and `<AddStripePaymentMethod>` components, which has logic to
+set up a payment form when the user clicks the "Add a new payment method" button from the bottom of the payment methods
+page. The payment method component to be rendered is determined by the `VITE_PAYMENT_PROCESSOR` environment variable.
 
 The flow once that button is triggered is:
 
-* An API request is made to Submarine to generate a client token, required to initialise the Braintree widget;
-* The returned client token is used to initialise the Braintree drop-in widget and display it in the page;
+* An API request is made to Submarine to generate a client token, required to initialise the Braintree or Stripe widget;
+* The returned client token is used to initialise the Braintree drop-in widget or the Stripe JS library and display it in the page;
 * The customer enters details of their chosen payment method and clicks "Save payment method";
-* The Braintree widget sends the payment details directly to Braintree and if successful, a one-time token is returned;
+* The widget sends the payment details directly to Braintree or Stripe and if successful, a one-time token is returned;
 * A final API request is made to Submarine to create a new payment method using the provided one-time token.
 
 You can learn more about the Braintree drop-in widget and its customisation options [here](https://developer.paypal.com/braintree/docs/guides/drop-in/customization/javascript/v3/).
+
+You can learn more about the Stripe JS library and its customisation options [here](https://stripe.com/docs/js).

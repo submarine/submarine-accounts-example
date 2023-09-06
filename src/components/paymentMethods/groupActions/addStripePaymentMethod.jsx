@@ -6,7 +6,7 @@ import { loadClientScripts } from "./common/loadClientScripts.js";
 import { generateClientToken } from "./common/generateClientToken.js";
 import { createPaymentMethodMutation } from "./common/createPaymentMethodMutation.js";
 
-export function AddBraintreePaymentMethod() {
+export function AddStripePaymentMethod() {
   const submarineContext = useContext(SubmarineContext);
   const { api } = submarineContext.submarine;
   const [open, setOpen] = useState(false);
@@ -17,7 +17,7 @@ export function AddBraintreePaymentMethod() {
         Add new payment method
       </button>
       {open && (<>
-        <AddBraintreePaymentMethodForm
+        <AddStripePaymentMethodForm
           api={api}
           setOpen={setOpen}
         />
@@ -26,54 +26,54 @@ export function AddBraintreePaymentMethod() {
   );
 }
 
-function AddBraintreePaymentMethodForm({ api, setOpen }) {
+function AddStripePaymentMethodForm({ api, setOpen }) {
   const queryClient = useQueryClient();
 
-  const dropinContainerRef = createRef(null);
-  const [dropinInstance, setDropinInstance] = useState(null);
+  const cardNumberRef = createRef(null);
+  const cardExpiryRef = createRef(null);
+  const cardCvcRef = createRef(null);
+
+  const [cardName, setCardName] = useState('');
+  const [stripeInstance, setStripeInstance] = useState(null);
+  const [stripeCardElement, setStripeCardElement] = useState(null);
 
   // fetch a payment processor client token
   const {
     isLoading: isGeneratingClientToken,
     error: clientTokenError,
     data: clientToken
-  } = generateClientToken('braintree', api);
+  } = generateClientToken('stripe', api);
 
-  // load the braintree dropin library
+  // load the stripe js library
   const {
     isLoading: isLoadingScripts,
     error: scriptsError,
     data: scripts
-  } = loadClientScripts('braintree');
+  } = loadClientScripts('stripe');
 
   // define a mutation to create a new payment method
   const createPaymentMethod = createPaymentMethodMutation(api, queryClient, setOpen);
 
-  // initialise the Braintree dropin component when ready
+  // initialise Stripe when ready
   useEffect(() => {
     if(isGeneratingClientToken || isLoadingScripts) {
       return;
     }
 
-    window.braintree.dropin.create({
-      authorization: clientToken.attributes.token,
-      container: dropinContainerRef.current,
-      card: {
-        cardholderName: {
-          required: true,
-        },
-      },
-      paypal: {
-        flow: 'vault'
-      },
-      translations: {
-        chooseAWayToPay: 'Choose type of payment method to add',
-        chooseAnotherWayToPay: 'Choose a different type of payment method to add',
-        payWithCard: 'Add card payment method'
-      }
-    }, (error, instance) => {
-      setDropinInstance(instance);
-    });
+    const stripe = window.Stripe(clientToken.attributes.token);
+    const elements = stripe.elements();
+
+    const cardElement = elements.create('cardNumber');
+    cardElement.mount(cardNumberRef.current);
+
+    const cardExpiry = elements.create('cardExpiry');
+    cardExpiry.mount(cardExpiryRef.current);
+
+    const cardCvc = elements.create('cardCvc');
+    cardCvc.mount(cardCvcRef.current);
+
+    setStripeInstance(stripe);
+    setStripeCardElement(cardElement);
   }, [isGeneratingClientToken, isLoadingScripts]);
 
   if(isGeneratingClientToken || isLoadingScripts) {
@@ -87,14 +87,16 @@ function AddBraintreePaymentMethodForm({ api, setOpen }) {
   const handleAddPaymentMethod = () => {
     createPaymentMethod.reset();
 
-    dropinInstance.requestPaymentMethod((error, payload) => {
-      if(error) {
+    stripeInstance.createToken(stripeCardElement, {
+      name: cardName
+    }).then(result => {
+      if(result.error) {
         createPaymentMethod.reset();
       } else {
         createPaymentMethod.mutate({
-          paymentToken: payload.nonce,
-          paymentMethodType: (payload.type === 'CreditCard') ? 'credit-card' : (payload.type === 'PayPal' ? 'paypal' : 'unknown'),
-          paymentProcessor: 'braintree'
+          paymentToken: result.token.id,
+          paymentMethodType: 'credit-card',
+          paymentProcessor: 'stripe'
         });
       }
     });
@@ -102,9 +104,16 @@ function AddBraintreePaymentMethodForm({ api, setOpen }) {
 
   return (
     <section>
-      <div ref={dropinContainerRef} />
+      <input
+        onChange={e => setCardName(e.target.value)}
+        placeholder="Name"
+        value={cardName}
+      />
+      <div ref={cardNumberRef} />
+      <div ref={cardExpiryRef} />
+      <div ref={cardCvcRef} />
       <button
-        disabled={!dropinInstance}
+        disabled={!stripeInstance || !stripeCardElement}
         onClick={handleAddPaymentMethod}
       >
         Save payment method
